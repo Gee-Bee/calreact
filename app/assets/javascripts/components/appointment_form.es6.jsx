@@ -1,6 +1,6 @@
-var AppointmentForm = React.createClass({
+const AppointmentForm = React.createClass({
   handleInputChange: function(e) {
-    obj = {};
+    const obj = {};
     obj[e.target.name] = e.target.value;
     this.props.onUserInput(obj);
   },
@@ -11,8 +11,8 @@ var AppointmentForm = React.createClass({
   },
 
   handleDatetimeChange: function(e) {
-    var name = 'appt_time';
-    var obj = {};
+    const name = 'appt_time';
+    const obj = {};
     if (obj[name] = e.toDate()) {
       this.props.onUserInput(obj);
     }

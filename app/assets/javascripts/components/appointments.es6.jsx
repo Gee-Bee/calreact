@@ -1,48 +1,49 @@
-var Appointments = React.createClass({
-  getInitialState: function() {
-    return {
-      appointments: this.props.appointments,
+class Appointments extends React.Component {
+  constructor (props) {
+    super (props)
+    this.state = {
+      appointments: props.appointments,
       title: 'Team standup meeting',
       appt_time: 'Tomorrow at 9am'
     }
-  },
+  }
 
-  handleUserInput: function(obj) {
+  handleUserInput (obj) {
     this.setState(obj);
-  },
+  }
 
-  handleFormSubmit: function(obj) {
-    var appointment = {
+  handleFormSubmit () {
+    const appointment = {
       title: this.state.title,
       appt_time: this.state.appt_time
     };
     $.post('/appointments',
             {appointment: appointment})
-          .done(function(data) {
+          .done((data) => {
             this.addNewAppointment(data);
-          }.bind(this));
-  },
+          });
+  }
 
-  addNewAppointment: function(appointment) {
-    var appointments = React.addons.update(this.state.appointments, { $push: [appointment]});
+  addNewAppointment (appointment) {
+    const appointments = React.addons.update(this.state.appointments, { $push: [appointment]});
     this.setState({
       appointments: appointments.sort(function(a,b){
         return new Date(a.appt_time) - new Date(b.appt_time);
       })
     });
-  },
+  }
 
-  render: function() {
+  render () {
     return (
       <div>
         <h2>Appointments</h2>
         <AppointmentForm
           title={this.state.title}
           appt_time={this.state.appt_time}
-          onUserInput={this.handleUserInput}
-          onFormSubmit={this.handleFormSubmit} />
+          onUserInput={(obj) => this.handleUserInput(obj)}
+          onFormSubmit={() => this.handleFormSubmit()} />
         <AppointmentList appointments={this.state.appointments}/>
       </div>
     )
   }
-});
+}
